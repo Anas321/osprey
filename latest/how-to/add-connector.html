@@ -61,11 +61,11 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="How to Use the Channel Finder" href="use-channel-finder.html" />
-    <link rel="prev" title="Event Dispatch" href="event-dispatch.html" />
+    <link rel="prev" title="Monitor Your OSPREY Agent" href="monitor-agent.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Jul 03, 2026"/>
+    <meta name="docbuild:last-update" content="Jul 18, 2026"/>
   </head>
   
   
@@ -374,7 +374,12 @@
 <li class="toctree-l1"><a class="reference internal" href="containerize-project.html">Containerize a Project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build-profiles.html">Build Profiles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="add-mcp-server.html">Add an MCP Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="use-web-terminal.html">Use the Web Terminal</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="web-terminal/index.html">Web Terminal</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="web-terminal/operate.html">Run the Web Terminal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web-terminal/theming.html">Theming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web-terminal/panels.html">Panels</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="use-cli-chat.html">Use the CLI Chat Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="non_interactive_query.html">Non-Interactive Agent Queries</a></li>
 
@@ -386,12 +391,15 @@
 
 <li class="toctree-l1"><a class="reference internal" href="use-python-executor.html">Python Execution Service</a></li>
 <li class="toctree-l1"><a class="reference internal" href="event-dispatch.html">Event Dispatch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monitor-agent.html">Monitor Your OSPREY Agent</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Add a Connector</a></li>
 
 
 
 
 <li class="toctree-l1"><a class="reference internal" href="use-channel-finder.html">How to Use the Channel Finder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use-virtual-accelerator.html">Use the Virtual Accelerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agent-assisted-grid-scan.html">Agent-Assisted Grid Scan Tutorial</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="ariel/index.html">Logbook Search Service (ARIEL)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="ariel/osprey-integration.html">Osprey Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ariel/data-ingestion.html">Data Ingestion</a></li>
@@ -400,7 +408,11 @@
 <li class="toctree-l2"><a class="reference internal" href="ariel/standalone-deployment.html">Standalone Deployment</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="use-facility-knowledge.html">Facility Knowledge</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="use-facility-knowledge.html">Facility Knowledge</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="facility-rules.html">Facility Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="okf-bundle.html">The OKF Bundle</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli-reference/index.html">CLI Reference</a></li>
 </ul>
 </div>
@@ -468,13 +480,13 @@
 </section>
 <section id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h1>
-<p>The Control System Integration system provides a <strong>two-layer abstraction</strong> for working with control systems and archivers. This enables development and R&amp;D work using mock connectors (without hardware access) and seamless migration to production by changing a single configuration line.</p>
-<p><strong>Key Features:</strong></p>
+<p>The Control System Integration system provides a <strong>two-layer abstraction</strong> for working with control systems and archivers. This enables development and R&amp;D work using mock connectors (without hardware access) and migration to production by changing a single configuration line.</p>
+<p><strong>Capabilities:</strong></p>
 <ul class="simple">
 <li><p><strong>Mock Mode</strong>: Work with any channel names without hardware access</p></li>
 <li><p><strong>Production Mode</strong>: EPICS in-tree; LabVIEW, Tango, and other stacks via user-registered custom connectors</p></li>
-<li><p><strong>Unified API</strong>: Same code works with mock and production connectors</p></li>
-<li><p><strong>Pluggable Architecture</strong>: Register custom connectors via <code class="docutils literal notranslate"><span class="pre">ConnectorFactory</span></code></p></li>
+<li><p><strong>One API</strong>: the same code works with mock and production connectors</p></li>
+<li><p><strong>Custom connectors</strong>: register your own via <code class="docutils literal notranslate"><span class="pre">ConnectorFactory</span></code></p></li>
 </ul>
 <p><strong>Built-in Connectors:</strong></p>
 <ul class="simple">
@@ -671,6 +683,17 @@ channel, or in <code class="docutils literal notranslate"><span class="pre">defa
 </pre></div>
 </div>
 <p>If <code class="docutils literal notranslate"><span class="pre">writes_enabled</span></code> is omitted, it defaults to <code class="docutils literal notranslate"><span class="pre">false</span></code> and all writes are blocked.</p>
+<p><code class="docutils literal notranslate"><span class="pre">writes_enabled</span></code> is a <strong>launch-time deployment posture, not a live kill-switch.</strong>
+It is read from config and process-cached, so flipping it in <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> does not
+take effect in a running process. The enforced kill-switch lives at the harness layer
+(a renderer <code class="docutils literal notranslate"><span class="pre">permissions.deny</span></code> on the write tool, then regenerate and relaunch the
+agent); in-flight control of an active scan is the RunEngine’s own <code class="docutils literal notranslate"><span class="pre">abort</span></code> / <code class="docutils literal notranslate"><span class="pre">pause</span></code>.</p>
+<p>The connector applies <strong>per-write mechanical safety</strong> — the <code class="docutils literal notranslate"><span class="pre">writes_enabled</span></code> gate,
+limits validation, and the fail-closed validation path — on every Channel Access put.
+This is a separate, complementary layer from the <strong>per-intent human authorization</strong>
+enforced at the tool boundary (the PreToolUse approval hook, and the promote token for
+scans), which gates the <em>intent</em> to write once per intent rather than once per put.
+The approval layer cannot substitute for the connector’s mechanical refusal.</p>
 </section>
 <section id="limits-checking">
 <span id="limits-checking-config"></span><h2>Limits Checking<a class="headerlink" href="#limits-checking" title="Link to this heading">#</a></h2>
@@ -764,12 +787,12 @@ don’t need a registry entry.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="event-dispatch.html"
+       href="monitor-agent.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Event Dispatch</p>
+        <p class="prev-next-title">Monitor Your OSPREY Agent</p>
       </div>
     </a>
     <a class="right-next"

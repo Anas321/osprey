@@ -52,12 +52,12 @@ Framework & Infrastructure
       Build and register a new FastMCP server to expose domain-specific tools that
       the Osprey agent can discover and call.
 
-   .. grid-item-card:: Use the Web Terminal
-      :link: use-web-terminal
+   .. grid-item-card:: Web Terminal
+      :link: web-terminal/index
       :link-type: doc
 
-      Launch and operate the Web Terminal interface for interactive Osprey agent
-      sessions with your control system.
+      The browser cockpit for the Osprey agent — launching it, theming every
+      OSPREY interface at once, and adding your own themed side panels.
 
    .. grid-item-card:: Use the CLI Chat Interface
       :link: use-cli-chat
@@ -87,6 +87,13 @@ Framework & Infrastructure
       Turn external events — webhooks and cron ticks — into headless Osprey agent
       runs, deployed as containers or run locally.
 
+   .. grid-item-card:: Monitor the Agent
+      :link: monitor-agent
+      :link-type: doc
+
+      Emit the agent's logs and metrics over OTLP to any backend, or deploy the
+      opt-in local OpenObserve store alongside your project.
+
    .. grid-item-card:: CLI Reference
       :link: /cli-reference/index
       :link-type: doc
@@ -114,11 +121,25 @@ Services & Connectors
       Search, filter, and explore control system channels using the Channel Finder
       service and its web interface.
 
+   .. grid-item-card:: Use the Virtual Accelerator
+      :link: use-virtual-accelerator
+      :link-type: doc
+
+      Run the Control Assistant tutorial against a containerized PyAT soft-IOC that
+      serves real EPICS Channel Access with live storage-ring physics.
+
+   .. grid-item-card:: Agent-Assisted Grid Scan Tutorial
+      :link: agent-assisted-grid-scan
+      :link-type: doc
+
+      Ask the Osprey agent to compose an n-dimensional grid scan, watch it fill
+      the PLAN panel live, then Execute and watch points land in SCAN RESULTS.
+
    .. grid-item-card:: ARIEL Logbook Search
       :link: ariel/index
       :link-type: doc
 
-      Intelligent search over facility electronic logbooks with keyword and
+      Search over facility electronic logbooks with keyword and
       semantic retrieval modes, plus multi-step reasoning delegated to the
       Osprey agent.
 
@@ -126,8 +147,9 @@ Services & Connectors
       :link: use-facility-knowledge
       :link-type: doc
 
-      Author and serve structured facility knowledge (subsystems, devices, procedures)
-      to the OSPREY agent via an on-demand markdown bundle.
+      What the Open Knowledge Format is and why OSPREY stores facility knowledge
+      as cross-linked markdown, plus how to structure, author, and serve a
+      bundle to the agent on demand.
 
 
 .. toctree::
@@ -139,13 +161,16 @@ Services & Connectors
    containerize-project
    build-profiles
    add-mcp-server
-   use-web-terminal
+   web-terminal/index
    use-cli-chat
    non_interactive_query
    use-python-executor
    event-dispatch
+   monitor-agent
    add-connector
    use-channel-finder
+   use-virtual-accelerator
+   agent-assisted-grid-scan
    ariel/index
    use-facility-knowledge
    /cli-reference/index

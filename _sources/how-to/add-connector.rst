@@ -6,14 +6,14 @@ Add a Connector
 Overview
 ========
 
-The Control System Integration system provides a **two-layer abstraction** for working with control systems and archivers. This enables development and R&D work using mock connectors (without hardware access) and seamless migration to production by changing a single configuration line.
+The Control System Integration system provides a **two-layer abstraction** for working with control systems and archivers. This enables development and R&D work using mock connectors (without hardware access) and migration to production by changing a single configuration line.
 
-**Key Features:**
+**Capabilities:**
 
 - **Mock Mode**: Work with any channel names without hardware access
 - **Production Mode**: EPICS in-tree; LabVIEW, Tango, and other stacks via user-registered custom connectors
-- **Unified API**: Same code works with mock and production connectors
-- **Pluggable Architecture**: Register custom connectors via ``ConnectorFactory``
+- **One API**: the same code works with mock and production connectors
+- **Custom connectors**: register your own via ``ConnectorFactory``
 
 **Built-in Connectors:**
 
@@ -224,6 +224,19 @@ Write operations are disabled by default and must be explicitly enabled at two l
      writes_enabled: true          # Master switch for all write operations
 
 If ``writes_enabled`` is omitted, it defaults to ``false`` and all writes are blocked.
+
+``writes_enabled`` is a **launch-time deployment posture, not a live kill-switch.**
+It is read from config and process-cached, so flipping it in ``config.yml`` does not
+take effect in a running process. The enforced kill-switch lives at the harness layer
+(a renderer ``permissions.deny`` on the write tool, then regenerate and relaunch the
+agent); in-flight control of an active scan is the RunEngine's own ``abort`` / ``pause``.
+
+The connector applies **per-write mechanical safety** — the ``writes_enabled`` gate,
+limits validation, and the fail-closed validation path — on every Channel Access put.
+This is a separate, complementary layer from the **per-intent human authorization**
+enforced at the tool boundary (the PreToolUse approval hook, and the promote token for
+scans), which gates the *intent* to write once per intent rather than once per put.
+The approval layer cannot substitute for the connector's mechanical refusal.
 
 .. _limits-checking-config:
 
